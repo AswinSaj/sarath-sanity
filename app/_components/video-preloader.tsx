@@ -1,0 +1,138 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import Image from "next/image";
+import { client } from "@/sanity/lib/client";
+import { logoQuery } from "@/sanity/lib/queries";
+
+interface VideoPreloaderProps {
+  progress: number;
+  isComplete: boolean;
+  onAnimationComplete: () => void;
+}
+
+interface LogoData {
+  _id: string;
+  logoImage?: {
+    asset: {
+      _id: string;
+      url: string;
+    };
+    alt?: string;
+  };
+  altText: string;
+  fallbackText: string;
+}
+
+export default function VideoPreloader({
+  progress,
+  isComplete,
+  onAnimationComplete,
+}: VideoPreloaderProps) {
+  const preloaderRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLSpanElement>(null);
+  const [logoData, setLogoData] = useState<LogoData | null>(null);
+  const [logoLoading, setLogoLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const data = await client.fetch(logoQuery);
+        setLogoData(data);
+      } catch (error) {
+        console.error("Error fetching logo:", error);
+      } finally {
+        setLogoLoading(false);
+      }
+    };
+
+    fetchLogo();
+  }, []);
+
+  useEffect(() => {
+    // Animate progress number
+    if (progressRef.current) {
+      gsap.to(progressRef.current, {
+        textContent: Math.round(progress),
+        duration: 0.5,
+        ease: "power2.out",
+        snap: { textContent: 1 },
+      });
+    }
+  }, [progress]);
+
+  useEffect(() => {
+    if (isComplete && preloaderRef.current) {
+      // Reveal animation - slide up and off screen
+      const tl = gsap.timeline({
+        onComplete: onAnimationComplete,
+      });
+
+      tl.to(preloaderRef.current, {
+        y: "-100%",
+        duration: 1.2,
+        ease: "power2.inOut",
+      });
+    }
+  }, [isComplete, onAnimationComplete]);
+
+  return (
+    <div
+      ref={preloaderRef}
+      className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+    >
+      <div className="text-center">
+        {/* Logo - bigger than the loader */}
+        <div className="mb-16 flex justify-center">
+          <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+            {logoLoading ? (
+              <div className="text-6xl md:text-8xl font-bold text-white">
+                SM
+              </div>
+            ) : !logoData || !logoData.logoImage ? (
+              <div className="text-6xl md:text-8xl font-bold text-white">
+                {logoData?.fallbackText || "SM"}
+              </div>
+            ) : (
+              <Image
+                src={logoData.logoImage.asset.url}
+                alt={logoData.altText}
+                width={256}
+                height={256}
+                className="w-full h-full object-contain"
+                priority
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Loading percentage */}
+        <div className="mb-8">
+          <span
+            ref={progressRef}
+            className="font-fjalla-one text-5xl md:text-6xl text-white"
+          >
+            0
+          </span>
+          <span className="font-fjalla-one text-5xl md:text-6xl text-white">
+            %
+          </span>
+        </div>
+
+        {/* Loading text */}
+        <div className="font-libre-baskerville text-sm md:text-base text-white/60 tracking-wider uppercase">
+          Loading Showreel
+        </div>
+
+        {/* Progress bar (optional visual indicator) */}
+        <div className="mt-8 w-64 h-px bg-white/20 mx-auto">
+          <div
+            className="h-full bg-white transition-all duration-500 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
