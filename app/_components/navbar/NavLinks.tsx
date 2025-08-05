@@ -22,12 +22,12 @@ const perspective = {
     transition: {
       duration: 0.65,
       delay: 0.5 + i * 0.1,
-      ease: [0.215, 0.61, 0.355, 1],
+      ease: [0.215, 0.61, 0.355, 1] as const,
     },
   }),
   exit: {
     opacity: 0,
-    transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
+    transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] as const },
   },
 }
 

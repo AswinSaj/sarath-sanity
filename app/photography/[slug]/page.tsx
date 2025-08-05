@@ -177,7 +177,7 @@ export default function CategoryPage({
             </div>
             <h3 className="text-2xl font-bold mb-2">No Photos Yet</h3>
             <p className="text-gray-400">
-              Photos for this category haven't been uploaded yet.
+              Photos for this category haven&apos;t been uploaded yet.
             </p>
           </div>
         )}

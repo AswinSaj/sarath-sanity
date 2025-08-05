@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 
 interface Photo {
@@ -32,6 +32,14 @@ export default function ImageLightbox({
     setCurrentImageIndex(currentIndex);
   }, [currentIndex]);
 
+  const goToNext = useCallback(() => {
+    setCurrentImageIndex((prev) => (prev + 1) % photos.length);
+  }, [photos.length]);
+
+  const goToPrevious = useCallback(() => {
+    setCurrentImageIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  }, [photos.length]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
@@ -51,7 +59,7 @@ export default function ImageLightbox({
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, currentImageIndex]);
+  }, [isOpen, goToNext, goToPrevious, onClose]);
 
   useEffect(() => {
     if (isOpen) {
@@ -64,14 +72,6 @@ export default function ImageLightbox({
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
-
-  const goToNext = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % photos.length);
-  };
-
-  const goToPrevious = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + photos.length) % photos.length);
-  };
 
   if (!isOpen) return null;
 

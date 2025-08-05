@@ -41,14 +41,14 @@ export default function About() {
     }
     
     // Find a good breaking point near the word limit, preferably at paragraph end
-    let breakPoint = wordLimit;
+    const breakPoint = wordLimit;
     const truncatedWords = words.slice(0, breakPoint);
     const truncatedText = truncatedWords.join(' ');
     
     // Try to break at a paragraph boundary if possible
     const paragraphs = text.split('\n\n');
     let wordCount = 0;
-    let truncatedParagraphs = [];
+    const truncatedParagraphs = [];
     
     for (const paragraph of paragraphs) {
       const paragraphWords = paragraph.split(' ').length;

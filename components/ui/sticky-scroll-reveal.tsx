@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -10,7 +10,7 @@ export const StickyScroll = ({
   content: {
     title: string;
     description: string | React.ReactNode;
-    content?: React.ReactNode | any;
+    content?: React.ReactNode;
   }[];
   contentClassName?: string;
 }) => {
@@ -55,11 +55,11 @@ export const StickyScroll = ({
     "#1a1a1a", // dark gray
   ];
 
-  const linearGradients = [
+  const linearGradients = useMemo(() => [
     "linear-gradient(to bottom right, #06b6d4, #10b981)", // cyan to emerald
     "linear-gradient(to bottom right, #ec4899, #6366f1)", // pink to indigo
     "linear-gradient(to bottom right, #f97316, #eab308)", // orange to yellow
-  ];
+  ], []);
 
   const [backgroundGradient, setBackgroundGradient] = useState(
     linearGradients[0]
@@ -67,7 +67,7 @@ export const StickyScroll = ({
 
   useEffect(() => {
     setBackgroundGradient(linearGradients[activeCard % linearGradients.length]);
-  }, [activeCard]);
+  }, [activeCard, linearGradients]);
 
   return (
     <div className="relative">

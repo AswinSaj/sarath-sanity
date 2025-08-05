@@ -18,7 +18,7 @@ interface Poem {
         };
         alt?: string;
     };
-    content: any[];
+    content: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 async function getAllPoems(): Promise<Poem[]> {

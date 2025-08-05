@@ -3,7 +3,6 @@
 import type { LenisOptions } from "lenis";
 import { ReactLenis } from "lenis/react";
 import { useMedia } from "react-use";
-import Navbar from "./navbar";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useMedia("(max-width: 768px)");
