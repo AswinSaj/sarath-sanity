@@ -27,10 +27,10 @@ export default async function Home() {
     <div className="w-full">
       <HeroVideo videoData={videoData} />
       <About />
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <MobileInfiniteScroll />
       </div>
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <DesktopParallax />
       </div>
       <Filmography />

@@ -194,7 +194,7 @@ export default function Filmography() {
     }
 
     return (
-        <section className="min-h-screen bg-black text-white py-12 px-6">
+        <section id="filmography" className="min-h-screen bg-black text-white py-12 px-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-8">

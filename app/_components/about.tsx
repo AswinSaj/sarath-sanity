@@ -95,7 +95,7 @@ export default function About() {
   const { truncated, needsTruncation } = truncateText(fullText);
 
   return (
-    <section className="min-h-screen bg-black text-white py-20 px-6">
+    <section id="about" className="min-h-screen bg-black text-white py-20 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Fixed Header */}
         <div className="text-center mb-16">

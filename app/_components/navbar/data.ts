@@ -1,16 +1,16 @@
 export const links = [
   { title: 'About', href: '/#about' },
   {
-    title: 'Photography',
-    href: '/#photography',
-  },
-  {
     title: 'Filmography',
     href: '/#filmography',
   },
   {
+    title: 'Photography',
+    href: '/#photography',
+  },
+  {
     title: 'Poetry',
-    href: '/poem',
+    href: '/#poetry',
   },
   {
     title: 'Contact',
