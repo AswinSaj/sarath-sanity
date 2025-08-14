@@ -120,7 +120,7 @@ export function MobileInfiniteScrollClient({ photos }: { photos: Photo[] }) {
   const secondRowPhotos = photos.slice(midpoint);
 
   return (
-    <div className="hidden w-full bg-black py-8">
+    <div className="w-full bg-black py-8">
       {/* First row - Left to Right */}
       <InfiniteMovingImages
         items={firstRowPhotos}
